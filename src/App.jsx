@@ -15,6 +15,7 @@ function App() {
     >
       <Header />
       <Main />
+      <Countries />
     </div>
   );
 }
@@ -47,7 +48,7 @@ function ThemeToggle() {
 
 function Main() {
   return (
-    <div className='flex justify-between py-6 sm:py-10 px-6 sm:px-16 lg:px-20'>
+    <div className='flex flex-col gap-4 sm:flex-row sm:gap-0 justify-between py-6 sm:py-10 px-6 sm:px-16 lg:px-20'>
       <SearchByCountry />
       <FilterByRegion />
     </div>
@@ -56,7 +57,7 @@ function Main() {
 
 function SearchByCountry() {
   return (
-    <div className='bg-gray-800 flex items-center gap-1 font-nunito w-[400px] px-8 rounded-md'>
+    <div className='bg-gray-800 flex items-center gap-1 font-nunito w-full sm:w-[300px] lg:w-[400px] px-8 rounded-md'>
       <IoSearchSharp className='text-white text-xl' />
       <input
         type='text'
@@ -69,7 +70,7 @@ function SearchByCountry() {
 
 function FilterByRegion() {
   return (
-    <div className='relative flex gap-3 font-nunito w-[280px] rounded-md bg-gray-800'>
+    <div className='relative flex gap-3 font-nunito w-full sm:w-[220px] lg:w-[280px] rounded-md bg-gray-800'>
       <select className='bg-gray-800 py-3 w-full px-3 rounded-md outline-none border-none text-white appearance-none'>
         <option value='' disabled selected className='hidden'>
           Filter By Region
@@ -98,5 +99,30 @@ function FilterByRegion() {
     </div>
   );
 }
+
+function Countries(){
+    return(
+        <section
+            className="text-white px-6 sm:px-16 lg:px-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10 xl:gap-12">
+            <div className="bg-gray-800 h-96 sm:h-80 xl:h-96 rounded-md overflow-hidden">
+                <div className="h-[50%] bg-red-500">hello</div>
+                <div className={"p-5"}>second</div>
+            </div>
+            <div className="bg-gray-800 h-96 sm:h-80 xl:h-96 rounded-md overflow-hidden">
+                <div className="h-[50%] bg-red-500">hello</div>
+                <div className={"p-5"}>second</div>
+            </div>
+            <div className="bg-gray-800 h-96 sm:h-80 xl:h-96 rounded-md overflow-hidden">
+                <div className="h-[50%] bg-red-500">hello</div>
+                <div className={"p-5"}>second</div>
+            </div>
+            <div className="bg-gray-800 h-96 sm:h-80 xl:h-96 rounded-md overflow-hidden">
+                <div className="h-[50%] bg-red-500">hello</div>
+                <div className={"p-5"}>second</div>
+            </div>
+        </section>
+    )
+}
+
 
 export default App;
