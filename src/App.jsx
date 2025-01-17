@@ -1,9 +1,17 @@
 import { useEffect, useReducer, useState } from "react";
 
 import MoonToggleButton from './assets/moon-dark-theme.png';
-// import SearchIcon from './assets/search.png';
 import { IoSearchSharp } from 'react-icons/io5';
 
+
+const appStyling = {
+    height: '100vh',
+    width: 'auto',
+    backgroundColor: '#202c37',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+}
 
 const initialState = {
     loading: true,
@@ -47,14 +55,10 @@ function App() {
 
   return (
     <div
-      style={{
-        height: 'auto',
-        width: '100vw',
-        backgroundColor: '#202c37',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-      }}
+      style={state.loading ? {
+        ...appStyling, height: '100vh',
+         }: {
+          ...appStyling, height: 'auto'}}
     >
       <Header />
       <Main />
@@ -148,14 +152,14 @@ function Countries({ countries, loading }){
     return(
        <>
            {
-               loading ? <h1>Loading</h1> : <section
+               loading ? <Loading /> : <section
                    className="text-white pb-20 px-6 sm:px-16 lg:px-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10 xl:gap-12 overflow-hidden">
                    {countries.map((country, index) => {
                        return (
                            <div key={index} className="bg-[#2b3945] h-96 sm:h-80 xl:h-96 rounded-md overflow-hidden">
                                <div className="h-[50%]">
                                    <img src={countries[index]?.flags?.png} alt={country.name}
-                                        className={"h-full w-full object-cover object-center"}/>
+                                        className={"h-full w-full object-cover object-center"} loading={"lazy"}/>
                                </div>
                                <div className={"p-6 font-pathway"}>
                                    <h1 className="font-semibold pb-5">{countries[index]?.name?.common}</h1>
@@ -170,6 +174,15 @@ function Countries({ countries, loading }){
                </section>
            }
        </>
+    )
+}
+
+
+function Loading(){
+    return (
+        <section className="text-white h-screen flex justify-center pt-40">
+            <h1 className={"font-pathway font-semibold text-2xl"}>Loading...</h1>
+        </section>
     )
 }
 
