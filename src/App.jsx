@@ -15,6 +15,7 @@ const appStyling = {
 
 const initialState = {
     loading: true,
+    searchTerm: '',
     data: [],
 };
 
@@ -25,6 +26,10 @@ const Reducer = (state, action) => {
                 ...state,
                 data: action.payload,
             };
+        case "searchTerm":
+            return {
+                ...state, searchTerm: action.payload,
+            }
         case "load":
             return {
                 ...state,
@@ -61,8 +66,8 @@ function App() {
           ...appStyling, height: 'auto'}}
     >
       <Header />
-      <Main />
-      <Countries countries={state?.data} loading={state?.loading}/>
+      <Main dispatch={dispatch} />
+      <Countries countries={state?.data} loading={state?.loading} searchTerm={state?.searchTerm} />
     </div>
   );
 }
@@ -93,21 +98,30 @@ function ThemeToggle() {
   );
 }
 
-function Main() {
+function Main({dispatch}) {
   return (
     <div className='flex flex-col gap-4 sm:flex-row sm:gap-0 justify-between py-6 sm:py-10 px-6 sm:px-16 lg:px-20'>
-      <SearchByCountry />
+      <SearchByCountry dispatch={dispatch} />
       <FilterByRegion />
     </div>
   );
 }
 
-function SearchByCountry() {
+function SearchByCountry({dispatch}) {
+
+  function handleSearch(e){
+      console.log(e.target.value);
+      dispatch({ type: 'searchTerm', payload: e.target.value })
+
+  }
+
   return (
     <div className='bg-[#2b3945] flex items-center gap-1 font-nunito w-full sm:w-[300px] lg:w-[400px] px-8 rounded-md'>
       <IoSearchSharp className='text-white text-xl' />
       <input
         type='text'
+        name='searchTerm'
+        onChange={(e)=> handleSearch(e)}
         placeholder='Search for a country'
         className='bg-[#2b3945] py-3 px-2 w-96 rounded-r-md outline-none caret-white text-white'
       />
@@ -147,12 +161,37 @@ function FilterByRegion() {
   );
 }
 
-// eslint-disable-next-line react/prop-types
-function Countries({ countries, loading }){
+function Countries({ countries, loading, searchTerm }){
+
+    console.log("Searching for a country: ", searchTerm);
+
+    const filteredCountries = countries.filter((country) => {
+        return country?.name?.common.toLowerCase() === searchTerm.toLowerCase();
+    });
+
+
+    console.log(filteredCountries)
+
+
     return(
        <>
            {
-               loading ? <Loading /> : <section
+               loading ? <Loading/> : filteredCountries.length > 0 ? <section
+                       className="text-white pb-20 px-6 sm:px-16 lg:px-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10 xl:gap-12 overflow-hidden">
+                             <div className="bg-[#2b3945] h-96 sm:h-80 xl:h-96 rounded-md overflow-hidden">
+                                   <div className="h-[50%]">
+                                       <img src={filteredCountries[0]?.flags?.png} alt={filteredCountries.name}
+                                            className={"h-full w-full object-cover object-center"} loading={"lazy"}/>
+                                   </div>
+                                   <div className={"p-6 font-pathway"}>
+                                       <h1 className="font-semibold pb-5">{filteredCountries[0]?.name?.common}</h1>
+                                       <h3>Population: {filteredCountries[0]?.population}</h3>
+                                       <h3>Region: {filteredCountries[0]?.region}</h3>
+                                       <h3>Capital: {filteredCountries[0]?.capital}</h3>
+                                   </div>
+                               </div>
+                   </section> :
+                   <section
                    className="text-white pb-20 px-6 sm:px-16 lg:px-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10 xl:gap-12 overflow-hidden">
                    {countries.map((country, index) => {
                        return (
