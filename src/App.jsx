@@ -177,7 +177,7 @@ function Countries({ countries, loading, searchTerm }){
        <>
            {
                loading ? <Loading/> : filteredCountries.length > 0 ? <section
-                       className="text-white pb-20 px-6 sm:px-16 lg:px-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10 xl:gap-12 overflow-hidden">
+                       className="text-white pb-32 px-6 sm:px-16 lg:px-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10 xl:gap-12 overflow-hidden">
                              <div className="bg-[#2b3945] h-96 sm:h-80 xl:h-96 rounded-md overflow-hidden">
                                    <div className="h-[50%]">
                                        <img src={filteredCountries[0]?.flags?.png} alt={filteredCountries.name}
@@ -215,6 +215,8 @@ function Countries({ countries, loading, searchTerm }){
        </>
     )
 }
+
+
 
 
 function Loading(){
